@@ -1,0 +1,123 @@
+:root {
+  --bg: #f6f5f2;
+  --fg: #1d1d1f;
+  --muted: #6e6e73;
+  --card: #ffffff;
+  --accent: #e0a100;
+  --viewer-bg: #0b0b0c;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141416;
+    --fg: #f2f2f4;
+    --muted: #a1a1a6;
+    --card: #1f1f22;
+  }
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif;
+}
+
+.site-header { padding: 32px 16px 8px; max-width: 1200px; margin: 0 auto; }
+.site-header h1 { margin: 0; font-size: 1.75rem; }
+.hint { color: var(--muted); margin: 4px 0 0; }
+
+main { max-width: 1200px; margin: 0 auto; padding: 16px; }
+.empty { color: var(--muted); }
+
+/* ---- イベント一覧 ---- */
+.event-grid {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+.event-card {
+  all: unset; cursor: pointer; display: block; width: 100%;
+  background: var(--card); border-radius: 14px; overflow: hidden;
+  box-shadow: 0 1px 3px rgb(0 0 0 / .12);
+  transition: transform .15s, box-shadow .15s;
+}
+.event-card:hover, .event-card:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgb(0 0 0 / .18);
+}
+.event-card:focus-visible { outline: 3px solid var(--accent); }
+.event-card img {
+  display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #ccc;
+}
+.event-card .meta { padding: 12px 14px 14px; }
+.event-card .title { font-weight: 700; font-size: 1.05rem; }
+.event-card .sub { color: var(--muted); font-size: .85rem; margin-top: 4px; }
+
+/* ---- スライドショー ---- */
+.viewer {
+  position: fixed; inset: 0; z-index: 10;
+  background: var(--viewer-bg); color: #fff;
+  display: flex; flex-direction: column;
+}
+.viewer[hidden] { display: none; }
+
+.viewer-bar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 16px; background: rgb(0 0 0 / .4);
+}
+.viewer-bar h2 {
+  margin: 0; font-size: 1rem; font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.counter { color: #aaa; font-variant-numeric: tabular-nums; font-size: .9rem; white-space: nowrap; }
+.spacer { flex: 1; }
+.speed { font-size: .85rem; color: #ccc; display: flex; align-items: center; gap: 6px; }
+.speed select { background: #222; color: #fff; border: 1px solid #444; border-radius: 6px; padding: 4px; }
+
+.icon-btn {
+  background: none; border: 1px solid #444; color: #fff;
+  border-radius: 8px; min-width: 38px; height: 38px; font-size: 1rem; cursor: pointer;
+}
+.icon-btn:hover { background: #2a2a2a; }
+
+.stage { position: relative; flex: 1; overflow: hidden; touch-action: pan-y; }
+.slide {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain; opacity: 0; transition: opacity .7s ease;
+}
+.slide.show { opacity: 1; }
+
+.nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 56px; height: 96px; border: none; cursor: pointer;
+  background: rgb(0 0 0 / .25); color: #fff; font-size: 2.5rem;
+  opacity: .6; transition: opacity .15s;
+}
+.nav:hover { opacity: 1; }
+.nav.prev { left: 0; border-radius: 0 10px 10px 0; }
+.nav.next { right: 0; border-radius: 10px 0 0 10px; }
+
+.progress {
+  position: absolute; left: 0; bottom: 0; height: 3px; width: 0;
+  background: var(--accent);
+}
+.progress.run { width: 100%; transition: width linear; }
+
+.thumbs {
+  display: flex; gap: 6px; padding: 8px 16px; overflow-x: auto;
+  background: rgb(0 0 0 / .4); scrollbar-width: thin;
+}
+.thumbs button {
+  flex: 0 0 auto; padding: 0; border: 2px solid transparent; border-radius: 6px;
+  background: none; cursor: pointer; opacity: .55;
+}
+.thumbs button.active { border-color: var(--accent); opacity: 1; }
+.thumbs img { display: block; height: 56px; width: 76px; object-fit: cover; border-radius: 4px; }
+
+@media (max-width: 600px) {
+  .speed, .counter { display: none; }
+  .nav { width: 40px; height: 72px; font-size: 2rem; }
+  .thumbs img { height: 44px; width: 60px; }
+}

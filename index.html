@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>イベントアルバム</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📷</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <h1>イベントアルバム</h1>
+    <p class="hint">イベントを選ぶとスライドショーが始まります</p>
+  </header>
+
+  <main>
+    <ul id="events" class="event-grid" aria-label="イベント一覧"></ul>
+    <p id="empty" class="empty" hidden>
+      画像が見つかりません。<code>photos/イベント名/</code> に画像を入れて
+      <code>python3 scripts/build_manifest.py</code> を実行してください。
+    </p>
+  </main>
+
+  <div id="viewer" class="viewer" hidden role="dialog" aria-modal="true" aria-labelledby="viewer-title">
+    <div class="viewer-bar">
+      <button id="btn-close" class="icon-btn" aria-label="一覧に戻る">✕</button>
+      <h2 id="viewer-title"></h2>
+      <span id="counter" class="counter"></span>
+      <div class="spacer"></div>
+      <label class="speed">
+        間隔
+        <select id="speed" aria-label="切り替え間隔">
+          <option value="2000">2秒</option>
+          <option value="3000">3秒</option>
+          <option value="5000" selected>5秒</option>
+          <option value="8000">8秒</option>
+        </select>
+      </label>
+      <button id="btn-play" class="icon-btn" aria-label="再生 / 一時停止">❚❚</button>
+      <button id="btn-full" class="icon-btn" aria-label="全画面">⛶</button>
+    </div>
+
+    <div id="stage" class="stage">
+      <img id="slide-a" class="slide" alt="">
+      <img id="slide-b" class="slide" alt="">
+      <button id="btn-prev" class="nav prev" aria-label="前の画像">‹</button>
+      <button id="btn-next" class="nav next" aria-label="次の画像">›</button>
+      <div id="progress" class="progress"></div>
+    </div>
+
+    <div id="thumbs" class="thumbs" aria-label="サムネイル"></div>
+  </div>
+
+  <script src="slideshow.js"></script>
+</body>
+</html>
